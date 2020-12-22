@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block headercontent %}
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/datatables.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.css' %}">
+     <style>
+        body {
+          background-color: #eff4f7;
+          color: #777;
+          font-family: 'Titillium Web', Arial, Helvetica, sans-serif
+        }
+        
+        .box {
+          box-shadow: 0px 1px 22px -12px #607D8B;
+          background-color: #fff;
+          padding: 25px 35px 25px 30px;
+        }
+
+        @media screen and (max-width:760px) {
+          .box {
+            padding: 25px 0;
+          }
+        }
+
+    </style>
+{% endblock headercontent %}
+
+{% block content %}
+        
+    {% if messages %} 
+        <div class="row"> 
+            <div class="col-12">
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{%else%}{{message.tags}}{% endif %}" role="alert">
+                        <strong>
+                            {% if message.tags == 'success' %}
+                                All Okay!
+                            {% endif %}
+                            {% if message.tags == 'error' %}
+                                Failed!
+                            {% endif %}
+                            {% if message.tags == 'warning' %}
+                                Alert!
+                            {% endif %}
+                            {% if message.tags == 'info' %}
+                                Information!
+                            {% endif %}
+                        </strong> 
+                        {{message}}
+                    </div>
+                {% endfor %} 
+            </div> 
+        </div>
+    {% endif %} 
+
+
+    <div class="box">
+        <div class="row justify-content-center align-items-center">
+            <h4>Add Member</h4>
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <form class="form-inline" method="POST" action=''>
+                {% csrf_token %}
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="text" name="firstname" placeholder="First Name" class="form-control" required/>
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="text" name="lastname" placeholder="Last Name" class="form-control" required/>
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="text" name="username" placeholder="User Name" class="form-control" required/>
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="email" name="email" placeholder="Email Address" class="form-control" required/>
+                </div>
+                <div class="form-group mx-sm-2 mb-2">
+                    <div class="form-check">
+                        <input class="form-check-input" name="staff" type="checkbox" id="staff">
+                        <label class="form-check-label" for="staff">
+                            is Staff?
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group mx-sm-2 mb-2">
+                    <div class="form-check">
+                        <input class="form-check-input" name="superuser" type="checkbox" id="superuser">
+                        <label class="form-check-label" for="superuser">
+                            is SuperUser?
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-dark mb-2">Add Member</button> 
+            </form>
+        </div>  
+    </div>
+
+    <br>
+
+    {% if members %}
+        <div class="box">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="table-responsive">
+                        <table id="memberData" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">Full Name</th>
+                                    <th class="text-center">User Name</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Member Access</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for member in members  %}
+                                    <tr>
+                                        <th scope="row" class="text-center">{{forloop.counter}}</th>
+                                        <td class="text-left">{{member.get_full_name}}</td>
+                                        <td class="text-left">{{member.username}}</td>
+                                        <td class="text-left">{{member.email}}</td>
+                                        <td class="text-center">
+
+                                            <span class="badge 
+                                                {% if member.is_superuser %}
+                                                    badge-dark
+                                                {% else %}
+                                                    {% if member.is_staff %}
+                                                        badge-secondary
+                                                    {% else %}
+                                                        badge-light    
+                                                    {% endif %}
+                                                {% endif %}    
+                                            ">
+                                                {% if member.is_superuser %}
+                                                    Super User
+                                                {% else %}
+                                                    {% if member.is_staff %}
+                                                        Staff User
+                                                    {% else %}
+                                                        Normal User    
+                                                    {% endif %}
+                                                {% endif %}    
+                                            </span>         
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+                                                {% if member.is_superuser %}
+                                                    <a href="{% url 'switch_user_role' id=member.id role=2 %}" class="btn btn-sm btn-dark" title="switch role to StaffUser">
+                                                        <i class="fas fa-users-cog"></i>
+                                                    </a>
+                                                    <a href="{% url 'switch_user_role' id=member.id role=3 %}" class="btn btn-sm btn-light" title="switch role to NormalUser">
+                                                        <i class="fas fa-user"></i>
+                                                    </a>
+                                                {% else %}
+                                                    {% if member.is_staff %}
+                                                        <a href="{% url 'switch_user_role' id=member.id role=1 %}" class="btn btn-sm btn-dark" title="switch role to SuperUser">
+                                                            <i class="fas fa-user-shield"></i>
+                                                        </a>
+                                                        <a href="{% url 'switch_user_role' id=member.id role=3 %}" class="btn btn-sm btn-light" title="switch role to NormalUser">
+                                                            <i class="fas fa-user"></i>
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{% url 'switch_user_role' id=member.id role=1 %}" class="btn btn-sm btn-dark" title="switch role to SuperUser">
+                                                            <i class="fas fa-user-shield"></i>
+                                                        </a>
+                                                        <a href="{% url 'switch_user_role' id=member.id role=2 %}" class="btn btn-sm btn-secondary" title="switch role to StaffUser">
+                                                            <i class="fas fa-users-cog"></i>
+                                                        </a>   
+                                                    {% endif %}
+                                                {% endif %}  
+                                            </div>
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+                                                <a href={% url 'member_reset' user_id=member.id%}  class="btn btn-sm btn-warning" title="reset password">
+                                                    <i class="fas fa-key"></i>
+                                                </a>
+                                            </div>
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Actions"> 
+                                                <a href={% url 'act_deact' user_id=member.id %} {% if member.is_active %} class="btn btn-sm btn-info" title="deactivate" {% else %} class="btn btn-sm btn-success"  title="activate" {% endif %} >
+                                                    <i {% if member.is_active %} 
+                                                        class="fas fa-lock"
+                                                    {% else %}
+                                                        class="fas fa-lock-open"
+                                                    {% endif %} 
+                                                    ></i>
+                                                </a> 
+                                                <a href={% url 'delete_member' user_id=member.id %} class="btn btn-sm btn-danger" title="delete member">
+                                                    <i class="fas fa-user-slash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %} 
+{% endblock content %}
+
+
+{% block jsblock %}
+    <script src="{% static 'plugins/table/datatable/datatables.js' %}"></script>
+    <script>
+        $('#memberData').DataTable( {
+            dom: 'flrtip',
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearchPlaceholder": "Search...",
+                "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [10, 30, 50,70, 100, 200, 500, 1000],
+            "pageLength": 10
+        } );
+    </script>
+{% endblock jsblock %}
+

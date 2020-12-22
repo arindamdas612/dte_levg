@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block headercontent %}
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/datatables.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.css' %}">
+    <style>
+        body {
+          background-color: #eff4f7;
+          color: #777;
+          font-family: 'Titillium Web', Arial, Helvetica, sans-serif
+        }
+        
+        .box {
+          box-shadow: 0px 1px 22px -12px #607D8B;
+          background-color: #fff;
+          padding: 25px 35px 25px 30px;
+        }
+
+        @media screen and (max-width:760px) {
+          .box {
+            padding: 25px 0;
+          }
+        }
+
+    </style>
+{% endblock headercontent %}
+
+{% block content %}
+    {% if messages %} 
+        <div class="row"> 
+            <div class="col-12">
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{%else%}{{message.tags}}{% endif %} mb-4" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
+                            <strong>
+                                {% if message.tags == 'success' %}
+                                    All Okay!
+                                {% endif %}
+                                {% if message.tags == 'error' %}
+                                    Failed!
+                                {% endif %}
+                                {% if message.tags == 'warning' %}
+                                    Alert!
+                                {% endif %}
+                                {% if message.tags == 'info' %}
+                                    Information!
+                                {% endif %}
+                            </strong> 
+                            {{message}}
+                        </button>
+                    </div>
+                {% endfor %} 
+            </div> 
+        </div>
+    {% endif %} 
+    <div class="box">
+        <div class="row justify-content-center align-items-center">
+            <h4>Load FY Data</h4>
+        </div>
+
+        {% if form.errors %}
+            <div class="row"> 
+                <div class="col-12">
+                    <div class="alert alert-danger mb-4" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
+                            {{ form.errors }}
+                        </button>
+                    </div>
+                </div> 
+            </div>
+        {% endif %}
+
+        <div class="row justify-content-center align-items-center">
+            <form class="form-inline" method="POST" action='' enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group mx-sm-3 mb-2">
+                    {{form.data_file}}
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    {{form.year}}
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    {{form.period}}
+                </div>
+                <button type="submit" class="btn btn-dark mb-2">Upload File</button> 
+            </form>
+        </div>  
+
+    </div>
+
+    <br>
+
+    {% if summary_data %}
+    <div class="box">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-sm-12">
+                 <div class="table-responsive">
+                    <table id="fileData" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">Year</th>
+                                <th class="text-center">Period</th>
+                                <th class="text-center">File Name</th>
+                                <th class="text-center">Total Records</th>
+                                <th class="text-center">Total FTE</th>
+                                <th class="text-center">Uploaded By</th>
+                                <th class="text-center">Uploaded On</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in summary_data  %}
+                                <tr>
+                                    <th scope="row" class="text-center">{{forloop.counter}}</th>
+                                    <td class="text-right">{{data.year}}</td>
+                                    <td class="text-right">{{data.period}}</td>
+                                    <td class="text-left">{{data.display_filename}}</td>
+                                    <td class="text-right">{{data.no_of_records}}</td>
+                                    <td class="text-right">{{data.total_fte|floatformat:2}}</td>
+                                    <td class="text-left">{{data.created_by.get_full_name}}</td>
+                                    <td class="text-left">{{data.create_ts}}</td>
+                                    <td class="text-center">
+                                        <a href="{% url 'del_fy_data' sumry_id=data.id %}" class="btn btn-sm btn-danger"  title="Delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>    
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock content %}
+
+
+{% block jsblock %}
+    <script src="{% static 'plugins/table/datatable/datatables.js' %}"></script>
+    <script>
+        $('#fileData').DataTable( {
+            dom: 'flrtip',
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearchPlaceholder": "Search...",
+                "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [10, 30, 50,70, 100, 200, 500, 1000],
+            "pageLength": 10
+        } );
+    </script>
+{% endblock jsblock %}
+

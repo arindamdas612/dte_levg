@@ -1,0 +1,564 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block headercontent %}
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/datatables.css' %}">
+     <style>
+        body {
+          background-color: #eff4f7;
+          color: #777;
+          font-family: 'Titillium Web', Arial, Helvetica, sans-serif
+        }
+        
+        .box {
+          box-shadow: 0px 1px 22px -12px #607D8B;
+          background-color: #fff;
+          padding: 25px 35px 25px 30px;
+        }
+
+        @media screen and (max-width:760px) {
+          .box {
+            padding: 25px 0;
+          }
+        }
+
+    </style>
+{% endblock headercontent %}
+
+{% block content %}
+    <div class="box">
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-secondary" data-toggle="collapse" data-target="#legends" aria-expanded="true" aria-controls="legends">
+                            Legends
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="legends" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Project Size</th>
+                                        <th colspan="2">Recomended Leverage</th>
+                                        <th>Senior Manager</th>
+                                        <th>Manager</th>
+                                        <th>Senior Consultant</th>
+                                        <th>Consultant</th>
+                                        <th>Analyst</th>
+                                        <th>Associate Analyst</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class"text-center">
+                                            <span class="badge" style="color: #fff; background-color: #c8c9ca;">
+                                                Super Large (> 500)
+                                            </span>
+                                        </td>
+                                        <td colspan="2">
+                                            <span class="badge" style="color: #fff; background-color: #7030a0;">
+                                                Highly Underleveraged
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                &#8918;0%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                &#8918;3%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                &#8918;12%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                &#8918;20%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                &#8918;12%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                &#8918;1%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <span class="badge" style="color: #000; background-color: #77f1ff;">
+                                                Xtra Large (250 - 500)
+                                            </span>
+                                        </td>
+                                        <td colspan="2">
+                                            <span class="badge" style="color: #000; background-color: #ffff00;">
+                                                Under Leveraged
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                    0%-0.7%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                3%-5%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                12%-18%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                20%-31%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                12%-18%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                1%-3%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <span class="badge" style="color: #fff; background-color: #608ffd;">
+                                                Large (75-250)
+                                            </span>
+                                        </td>
+                                        <td colspan="2">
+                                            <span class="badge" style="color: #000; background-color: #92d050;">
+                                                Meeting Level
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                    0.7%-1.1%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                5%-8%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                18%-30%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                31%-51%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                18%-30%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                3%-5%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <span class="badge" style="color: #000; background-color: #bfe0f4;">
+                                                Medium (15-75)
+                                            </span>
+                                        </td>
+                                        <td colspan="2">
+                                            <span class="badge" style="color: #000; background-color: #ffbf00;">
+                                                Over Leveraged
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                    1.1%-1.5%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                8%-10%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                30%-36%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                51%-61%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                30%-36%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                5%-7%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <span class="badge" style="color: #000; background-color: #63faae;">
+                                                Small (&#8918;15)
+                                            </span>
+                                        </td>
+                                        <td colspan="2">
+                                            <span class="badge" style="color: #fff; background-color: #ff0000;">
+                                                Highly OverLeveraged
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                >15%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                >10%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                >36%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                >61%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                >36%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                >7%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-dark collapsed" data-toggle="collapse" data-target="#summary" aria-expanded="false" aria-controls="summary">
+                            Selection Summary
+                        </button>
+                    </h5>
+                </div>
+                <div id="summary" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>FTE</th>
+                                        <th>Senior Manager</th>
+                                        <th>Manager</th>
+                                        <th>Senior Consultant</th>
+                                        <th>Consultant</th>
+                                        <th>Analyst</th>
+                                        <th>Associate Analyst</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td onclick="showDetail('smry', 'All', 'XXX')">
+                                            <span class="badge" style="color: {{result_summary.FTE_tcl|safe}}; background-color: {{result_summary.FTE_cl|safe}};">
+                                                {{result_summary.Total_FTE|floatformat:2 }}
+                                            </span>
+                                        </td>
+                                        <td onclick="showDetail('smry', 'SM', 'XXX')">
+                                            <span class="badge" {% if result_summary.SM|length > 1 %} style="color: {{result_summary.SM_tcl|safe}}; background-color: {{result_summary.SM_cl|safe}};" {% endif %}>
+                                                {{result_summary.SM|safe}}
+                                            </span>
+                                        </td>
+                                        <td onclick="showDetail('smry', 'M', 'XXX')">
+                                            <span class="badge" {% if result_summary.M|length > 1 %} style="color: {{result_summary.M_tcl|safe}}; background-color: {{result_summary.M_cl|safe}};" {% endif %}>
+                                                {{result_summary.M|safe}}
+                                            </span>
+                                        </td>
+                                        <td  onclick="showDetail('smry', 'SC', 'XXX')">
+                                            <span class="badge" {% if result_summary.SC|length > 1 %} style="color: {{result_summary.SC_tcl|safe}}; background-color: {{result_summary.SC_cl|safe}};" {% endif %}>
+                                                {{result_summary.SC|safe}}
+                                            </span>
+                                        </td>
+                                        <td onclick="showDetail('smry', 'Con', 'XXX')">
+                                            <span class="badge" {% if result_summary.Con|length > 1 %} style="color: {{result_summary.Con_tcl|safe}}; background-color: {{result_summary.Con_cl|safe}};" {% endif %}>
+                                                {{result_summary.Con|safe}}
+                                            </span>
+                                        </td>
+                                        <td onclick="showDetail('smry', 'Analyst', 'XXX')">
+                                            <span class="badge" {% if result_summary.Analyst|length > 1 %} style="color: {{result_summary.Analyst_tcl|safe}}; background-color: {{result_summary.Analyst_cl|safe}};" {% endif %}>
+                                                {{result_summary.Analyst|safe}}
+                                            </span>
+                                        </td>
+                                        <td onclick="showDetail('smry', 'AA', 'XXX')">
+                                            <span class="badge" {% if result_summary.AA|length > 1 %} style="color: {{result_summary.AA_tcl|safe}}; background-color: {{result_summary.AA_cl|safe}};" {% endif %}>
+                                                {{result_summary.AA|safe}}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="box">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 layout-spacing">
+            <div class="widget-content-area br-4">
+                    <div class="widget-one">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>Data</h4>
+                                </div>          
+                            </div>
+                        </div>
+
+                        <div class="widget-content widget-content-area br-6">
+                            <div class="table-responsive">
+                                <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Client Name</th>
+                                            <th>Project Name</th>
+                                            <th>WBS Code</th>
+                                            <th>FTE</th>
+                                            <th>Senior Manager</th>
+                                            <th>Manager</th>
+                                            <th>Senior Consultant</th>
+                                            <th>Consultant</th>
+                                            <th>Analyst</th>
+                                            <th>Associate Analyst</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        {% for result in result_list  %}
+                                            <tr>
+                                                <td>{{result.Client_Name|safe}}</td>
+                                                <td>{{result.Project_Name|safe}}</td>
+                                                <td>{{result.WBS_Code|safe}}</td>
+                                                <td onclick="showDetail('detail', 'All', '{{result.Project_Name|safe}}')">
+                                                    <span class="badge" style="color: {{result.FTE_tcl|safe}}; background-color: {{result.FTE_cl|safe}};">
+                                                        {{result.Total_FTE|safe}}
+                                                    </span>
+                                                </td>
+                                                <td onclick="showDetail('detail', 'SM', '{{result.Project_Name|safe}}')">
+                                                    <span class="badge" {% if result.SM|length > 1 %} style="color: {{result.SM_tcl|safe}}; background-color: {{result.SM_cl|safe}};" {% endif %}>
+                                                        {{result.SM|safe}}
+                                                    </span>
+                                                </td>
+                                                <td onclick="showDetail('detail', 'M', '{{result.Project_Name|safe}}')">
+                                                    <span class="badge" {% if result.M|length > 1 %} style="color: {{result.M_tcl|safe}}; background-color: {{result.M_cl|safe}};" {% endif %}>
+                                                        {{result.M|safe}}
+                                                    </span>
+                                                </td>
+                                                <td onclick="showDetail('detail', 'SC', '{{result.Project_Name|safe}}')">
+                                                    <span class="badge" {% if result.SC|length > 1 %} style="color: {{result.SC_tcl|safe}}; background-color: {{result.SC_cl|safe}};" {% endif %}>
+                                                        {{result.SC|safe}}
+                                                    </span>
+                                                </td>
+                                                <td onclick="showDetail('detail', 'Con', '{{result.Project_Name|safe}}')">
+                                                    <span class="badge" {% if result.Con|length > 1 %} style="color: {{result.Con_tcl|safe}}; background-color: {{result.Con_cl|safe}};" {% endif %}>
+                                                        {{result.Con|safe}}
+                                                    </span>
+                                                </td>
+                                                <td onclick="showDetail('detail', 'Analyst', '{{result.Project_Name|safe}}')">
+                                                    <span class="badge" {% if result.Analyst|length > 1 %} style="color: {{result.Analyst_tcl|safe}}; background-color: {{result.Analyst_cl|safe}};" {% endif %}>
+                                                        {{result.Analyst|safe}}
+                                                    </span>
+                                                </td>
+                                                <td onclick="showDetail('detail', 'AA', '{{result.Project_Name|safe}}')">
+                                                    <span class="badge" {% if result.AA|length > 1 %} style="color: {{result.AA_tcl|safe}}; background-color: {{result.AA_cl|safe}};" {% endif %}>
+                                                        {{result.AA|safe}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
+
+    
+{% endblock content %}
+
+
+{% block jsblock %}
+    
+    <script src="{% static 'plugins/table/datatable/datatables.js' %}"></script>
+    <!-- NOTE TO Use Copy CSV Excel PDF Print Options You Must Include These Files  -->
+    <script src="{% static 'plugins/table/datatable/button-ext/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'plugins/table/datatable/button-ext/jszip.min.js' %}"></script>    
+    <script src="{% static 'plugins/table/datatable/button-ext/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'plugins/table/datatable/button-ext/buttons.print.min.js' %}"></script>
+    <script>
+        $('#html5-extension').DataTable( {
+            {% comment %} dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"<"justify-content-end"l>> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >', {% endcomment %}
+            {% comment %} dom: 'Bfrtip', {% endcomment %}
+            dom: 'B<"top"l>rt<"bottom"pi><"clear">',
+
+            buttons: {
+                buttons: [
+                    { extend: 'copy', className: 'btn btn-primary' },
+                    { extend: 'csv', className: 'btn btn-secondary' },
+                    { extend: 'excel', className: 'btn btn-dark' },
+                    { extend: 'print', className: 'btn btn-light' }
+                ]
+            },
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearchPlaceholder": "Search...",
+                "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [10, 30, 50,70, 100, 200, 500, 1000],
+            "pageLength": 50
+        } );
+    </script>
+    <script>
+
+        var showDetail = (type, designation, projectName) => {
+            var data = {{supporting_data|safe}};
+            var clickedData; 
+            switch (designation) {
+                case 'SM':
+                case 'M':
+                case 'SC':
+                case 'Con':
+                case 'Analyst':
+                case 'AA':
+                    if (type == 'smry') {
+                        clickedData = data.filter((record) => record.refinedJL == designation);
+                    } else {
+                        clickedData = data.filter((record) => record.refinedJL == designation && record.wbsLevel1Text == projectName);
+                    }
+                    break;
+                default:
+                    if (type == 'smry') {
+                        clickedData = [...data];
+                    } else {
+                        clickedData = data.filter((record) => record.wbsLevel1Text == projectName);
+                    }
+                    break;
+            }
+            if (clickedData.length > 0) {
+                 var tableString = `
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Client DUNS Number</th>
+                                                <th scope="col">Client Name</th>
+                                                <th scope="col">Employee Name Combined</th>
+                                                <th scope="col">Employee Email Address</th>
+                                                <th scope="col">Employee Job Level</th>
+                                                <th scope="col">Refined JL</th>
+                                                <th scope="col">Employee At Posting Profit Center</th>
+                                                <th scope="col">Employee At Posting Profit Center Decp.</th>
+                                                <th scope="col">Employee Profit Center Business Area</th>
+                                                <th scope="col">Employee Profit Center Business Line</th>
+                                                <th scope="col">Profit Center USI Indicator</th>
+                                                <th scope="col">WBS Level 1</th>
+                                                <th scope="col">WBS Level 1 Text</th>
+                                                <th scope="col">WBS Level 2',
+                                                <th scope="col">WBS Level 2 Text</th>
+                                                <th scope="col">WBS Business Model Mix</th>
+                                                <th scope="col">Market Offering Solution</th>
+                                                <th scope="col">Market Offering Sub-Solution</th>
+                                                <th scope="col">Client Service Hours</th>
+                                                <th scope="col">FTE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                    `;
+                var recCount = 1;
+                clickedData.forEach((rec) => {
+                    tableString = tableString + '<tr><th scope="row">'+ recCount + '</th><td>' + rec.clientNumber 
+                                    + '</td><td>' + rec.clientName + '</td><td>' + rec.employeeNameCombined + '</td><td>' + rec.employeeEmailAddress 
+                                    + '</td><td>' + rec.employeeJobLevel + '</td><td>' + rec.refinedJL + '</td><td>' + rec.employeeAtPostingProfitCenter 
+                                    + '</td><td>' + rec.employeeAtPostingProfitCenterDecp + '</td><td>' + rec.employeeProfitCenterBusinessArea + '</td><td>' + rec.employeeProfitCenterBusinessLine 
+                                    + '</td><td>' + rec.profitCenterUSIIndicator + '</td><td>' + rec.wbsLevel1 + '</td><td>' + rec.wbsLevel1Text 
+                                    + '</td><td>' + rec.wbsLevel2 + '</td><td>' + rec.wbsLevel2Text + '</td><td>' + rec.wbsBusinessModelMix 
+                                    + '</td><td>' + rec.marketOfferingSolution + '</td><td>' + rec.marketOfferingSubSolution + '</td><td>' + rec.clientServiceHours 
+                                    + '</td><td>' + rec.FTE + '</td></tr>';
+                    recCount++;
+                });
+                tableString = tableString + '</tbody></table>';
+                var pageContent = `
+                    <!doctype html>
+                    <html lang="en">
+                        <head>
+                            <!-- Required meta tags -->
+                            <meta charset="utf-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+                            <!-- Bootstrap CSS -->
+                            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+                            <title>Clicked Details</title>
+                        </head>
+                        <body>
+                            <div class="container-fluid">`;
+                pageContent = pageContent + tableString;
+                pageContent = pageContent + '</div></body></html>';
+                var myWindow = window.open("", "", "width=2000,height=2000");
+                myWindow.document.write(pageContent);
+            } else {
+                alert('Zero records for the current selection');
+            }
+            
+        }
+
+        
+    </script>
+{% endblock jsblock %}
+

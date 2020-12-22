@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block headercontent %}
+    <link href="{% static 'plugins/apex/apexcharts.css' %}" rel="stylesheet" type="text/css">
+
+    <style>
+        body {
+          background-color: #eff4f7;
+          color: #777;
+          font-family: 'Titillium Web', Arial, Helvetica, sans-serif
+        }
+        .box {
+          max-height: 444px;
+        }
+
+        .box {
+          box-shadow: 0px 1px 22px -12px #607D8B;
+          background-color: #fff;
+          padding: 25px 35px 25px 30px;
+        }
+
+        @media screen and (max-width:760px) {
+          .box {
+            padding: 25px 0;
+          }
+        }
+
+    </style>
+{% endblock headercontent %}
+
+
+
+{% block content %}
+        
+    <div class="row justify-content-center align-items-center">
+      <div class="box">
+        <form class="form-inline" method="POST" action='' enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mx-sm-3 mb-2">
+                {{form.file_to_view.label}}
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+                {{form.file_to_view}}
+            </div>
+            <button type="submit" class="btn btn-dark mb-2">Retrive Filters</button> 
+        </form>
+      </div>
+    </div>    
+    <div class="main">
+        <div class="row mt-5 mb-4">
+            <div class="col-md-6">
+                <div class="box">
+                    <div id="view"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box">
+                    <div id="file"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block jsblock %}
+    <script src="{% static 'plugins/apex/apexcharts.min.js' %}"></script>
+    <script>
+      function create_view_chart(viewData, hitRatio) {
+        var labels = Object.keys(viewData);
+        var viewCount = Object.values(viewData);
+
+        var viewOptions = {
+            series: [{
+            name: 'series1',
+            data: viewCount,
+          }],
+          chart: {
+            height: 350,
+            type: 'area'
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'smooth'
+          },
+          title: {
+            text: 'Daily Report Views',
+            align: 'left'
+          },
+          subtitle: {
+            text: hitRatio + ' Hits per Day',
+            align: 'left'
+          },
+          xaxis: {
+            categories: labels,
+            labels: {
+              show: false,
+            },
+          },
+          
+        };
+
+        var chart = new ApexCharts(document.querySelector("#view"), viewOptions);
+        chart.render();
+      }
+
+      function create_file_chart (fileData) {
+        var l = fileData.labels;
+        var options = {
+          series: [{
+            name: 'Total FTE',
+            type: 'column',
+            data: fileData.t_fte,
+          }, {
+            name: '+ve FTE',
+            type: 'column',
+            data: fileData.p_fte,
+          }, {
+            name: '-ve FTE',
+            type: 'column',
+            data: fileData.n_fte,
+          }, {
+            name: 'Count',
+            type: 'line',
+            data: fileData.count,
+          }],
+          chart: {
+            height: 350,
+            type: 'line',
+            stacked: false
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            width: [1, 1, 4]
+          },
+          title: {
+            text: 'FTE Data Analysis',
+            align: 'left',
+            offsetX: 110
+          },
+          xaxis: {
+            categories: l,
+          },
+        yaxis: [{
+          axisTicks: {
+              show: true,
+            },
+            axisBorder: {
+              show: true,
+              color: '#008FFB'
+            },
+            labels: {
+              style: {
+                colors: '#008FFB',
+              }
+            },
+            title: {
+              text: "FTE",
+            },
+            tooltip: {
+              enabled: true
+            }
+          },
+        ],
+        tooltip: {
+          fixed: {
+            enabled: true,
+            position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+            offsetY: 30,
+            offsetX: 60
+          },
+        },
+        legend: {
+          horizontalAlign: 'left',
+          offsetX: 40
+        }
+        };
+
+
+
+        var chart = new ApexCharts(document.querySelector("#file"), options);
+        chart.render();
+      
+      
+
+      }
+
+      function getChartData() {
+        var endpoint = 'api/chart-data';
+        var api_data = [];
+        $.ajax({
+            method: 'GET',
+            url: endpoint,
+            success: function (data) {
+              api_data = data;
+              create_view_chart(api_data.view_data, api_data.hit_ratio);
+              create_file_chart(api_data.file_data);
+            },
+            error: function (error_data) {
+                console.log('Cannot fetch chart data')
+            }
+        });
+      }
+      function createChartData() {
+        getChartData()
+      }
+    </script>
+    <script>
+      createChartData();
+    </script>
+{% endblock jsblock %}
+
+
+
