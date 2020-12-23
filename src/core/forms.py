@@ -26,7 +26,7 @@ class AddFYDataForm(forms.Form):
         ext = filename.split('.')[-1]
         if ext != 'xlsx':
             self._errors[
-                'data_file'] = ' - Invalid file type, only zipped file with extension (.xlsx) allowed.'
+                'data_file'] = ' - Invalid file type, only xlsx file with extension (.xlsx) allowed.'
             return False
         return True
 

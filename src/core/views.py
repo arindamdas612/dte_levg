@@ -80,7 +80,7 @@ def fy_data(request):
     if request.method == 'POST':
         form = AddFYDataForm(request.POST, request.FILES)
         if form.is_valid():
-            fy_data = zipped_file = request.FILES['data_file']
+            fy_data  = request.FILES['data_file']
 
             dd_file = pd.read_excel(fy_data)
             if validate_data(dd_file):
