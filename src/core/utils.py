@@ -469,14 +469,20 @@ def get_file_stats():
 
 def get_application_start_date():
     activity_list = ReportLog.objects.values_list('view_ts')
-    start_date = activity_list.order_by('view_ts').first()[0]
-    start_date = timezone.localtime(start_date)
+    if activity_list:
+        start_date = activity_list.order_by('view_ts').first()[0]
+        start_date = timezone.localtime(start_date)
+    else:
+        local = tzlocal()
+        start_date = datetime.now() - timedelta(days=1)
+        start_date = start_date.replace(tzinfo=local)
+
     return start_date
 
 
 def current_date_with_tz():
     local = tzlocal()
-    current_date = datetime.now()
+    current_date = datetime.now() + timedelta(days=1)
     current_date = current_date.replace(tzinfo=local)
     return current_date
 
@@ -516,6 +522,6 @@ def get_view_data():
                 for data in hit_qs]
     hit_data = fill_missing_data(hit_data, all_days)
     total_hit = sum(list(hit_data.values()))
-    hit_ratio = round(total_hit / days, 2)
+    hit_ratio = round(total_hit / days, 2) if days > 0 else 0
 
     return [hit_data, hit_ratio]
